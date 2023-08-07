@@ -7,11 +7,15 @@ const axios = require('axios')
 
 router.get('/keptn/:endpoint/:name', async (req, res, next) => {
   try {
+    logger.debug("Endpoint: " +req.params.endpoint+ " - Name: " +req.params.name)
+
     const endpoint = (await secretHelpers.getEndpoint(req.params.endpoint)).data
 
     logger.debug(endpoint)
 
     const regex = /\[(.*)\](.*)/gm
+
+    logger.debug(req.params.name.match(regex))
     const projectName = req.params.name.match(regex)[1]
     const serviceName = req.params.name.match(regex)[2]
 
