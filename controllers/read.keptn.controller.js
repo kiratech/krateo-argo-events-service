@@ -8,6 +8,9 @@ const axios = require('axios')
 router.get('/project/:endpoint/:name', async (req, res, next) => {
   try {
     logger.debug(req.params)
+    logger.debug(stringHelpers.b64toAscii(req.params.endpoint))
+    logger.debug(JSON.parse(stringHelpers.b64toAscii(req.params.endpoint)))
+    logger.debug(stringHelpers.b64toAscii(req.params.name))
     
     const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
     const name = stringHelpers.b64toAscii(req.params.name)
@@ -16,6 +19,8 @@ router.get('/project/:endpoint/:name', async (req, res, next) => {
 
     const regex = /(?<=\[)[^\][]*(?=])/gm
     const projectName = name.match(regex)[0]
+
+    logger.debug(projectName)
 
     const prj = await axios.get(
       uriHelpers.concatUrl([
