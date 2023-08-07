@@ -12,8 +12,8 @@ router.get('/keptn/:endpoint/:name', async (req, res, next) => {
     logger.debug(endpoint)
 
     const regex = /\[(.*)\](.*)/gm
-    const projectName = req.params.name.match(regex).groups(0)
-    const serviceName = req.params.name.match(regex).groups(1)
+    const projectName = req.params.name.match(regex)[1]
+    const serviceName = req.params.name.match(regex)[2]
 
     logger.debug("project:" +projectName+ " - Service: "+serviceName)
 
@@ -25,7 +25,7 @@ router.get('/keptn/:endpoint/:name', async (req, res, next) => {
       ]),
       {
         headers: {
-          'x-token': endpoint.data.token
+          'x-token': endpoint.token
         }
       }
     )
