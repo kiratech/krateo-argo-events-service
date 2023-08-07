@@ -7,6 +7,8 @@ const axios = require('axios')
 
 router.get('/project/:endpoint/:name', async (req, res, next) => {
   try {
+    logger.debug(req.params)
+    
     const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
     const name = stringHelpers.b64toAscii(req.params.name)
 
