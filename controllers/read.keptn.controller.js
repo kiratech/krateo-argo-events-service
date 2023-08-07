@@ -13,7 +13,7 @@ router.get('/keptn/:endpoint/:name', async (req, res, next) => {
 
     logger.debug(endpoint)
 
-    const regex = /\[(.*)\](.*)/gm
+    const regex = /\[(.*)\](.*)/
 
     logger.debug(req.params.name.match(regex))
     const projectName = req.params.name.match(regex)[1]
