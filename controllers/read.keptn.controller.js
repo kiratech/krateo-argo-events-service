@@ -2,25 +2,20 @@ const express = require('express')
 const router = express.Router()
 const logger = require('../service-library/helpers/logger.helpers')
 const uriHelpers = require('../service-library/helpers/uri.helpers')
-const stringHelpers = require('../service-library/helpers/string.helpers')
+const secretHelpers = require('../service-library/helpers/secret.helpers')
 const axios = require('axios')
 
-router.get('/project/:endpoint/:name', async (req, res, next) => {
+router.get('/keptn/:endpoint/:name', async (req, res, next) => {
   try {
-    logger.debug(req.params)
-    logger.debug(stringHelpers.b64toAscii(req.params.endpoint))
-    logger.debug(JSON.parse(stringHelpers.b64toAscii(req.params.endpoint)))
-    logger.debug(stringHelpers.b64toAscii(req.params.name))
-    
-    const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
-    const name = stringHelpers.b64toAscii(req.params.name)
+    const endpoint = (await secretHelpers.getEndpoint(req.params.endpoint)).data
 
     logger.debug(endpoint)
 
-    const regex = /(?<=\[)[^\][]*(?=])/gm
-    const projectName = name.match(regex)[0]
+    const regex = /\[(.*)\](.*)/gm
+    const projectName = req.params.name.match(regex).groups(0)
+    const serviceName = req.params.name.match(regex).groups(1)
 
-    logger.debug(projectName)
+    logger.debug("project:" +projectName+ " - Service: "+serviceName)
 
     const prj = await axios.get(
       uriHelpers.concatUrl([
@@ -34,8 +29,6 @@ router.get('/project/:endpoint/:name', async (req, res, next) => {
         }
       }
     )
-
-    const serviceName = name.replace(`[${projectName}]`, '')
 
     res.status(200).json({
       ...prj.data,
