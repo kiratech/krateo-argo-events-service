@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const logger = require('../service-library/helpers/logger.helpers')
 const uriHelpers = require('../service-library/helpers/uri.helpers')
-const stringHelpers = require('../service-library/helpers/string.helpers')
+const secretHelpers = require('../service-library/helpers/secret.helpers')
 const axios = require('axios')
 
 router.post('/keptn/:endpoint/:name', async (req, res, next) => {
