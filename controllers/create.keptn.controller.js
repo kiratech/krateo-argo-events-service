@@ -7,6 +7,10 @@ const axios = require('axios')
 
 router.post('/keptn/:endpoint/:name', async (req, res, next) => {
   try {
+
+    logger.debug("req.params.endpoint:")
+    logger.debug(req.params.endpoint)
+
     const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
     // const name = stringHelpers.b64toAscii(req.params.name)
 
