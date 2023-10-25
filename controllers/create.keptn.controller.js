@@ -10,6 +10,7 @@ router.post('/trigger/:endpoint/:name', async (req, res, next) => {
     const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
     // const name = stringHelpers.b64toAscii(req.params.name)
 
+    logger.debug("endpoint:")
     logger.debug(endpoint)
 
     await axios.post(
