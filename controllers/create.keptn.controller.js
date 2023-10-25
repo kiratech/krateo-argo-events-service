@@ -7,22 +7,22 @@ const axios = require('axios')
 
 router.post('/keptn/:endpoint/:name', async (req, res, next) => {
   try {
+    logger.debug("Endpoint: " +req.params.endpoint+ " - Name: " +req.params.name)
 
-    logger.debug("req.params.endpoint:")
-    logger.debug(req.params.endpoint)
+    const endpoint = (await secretHelpers.getEndpoint(req.params.endpoint)).data
 
-    const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
-    // const name = stringHelpers.b64toAscii(req.params.name)
-
-    logger.debug("endpoint:")
     logger.debug(endpoint)
 
+    const regex = /\[(.*)\](.*)/
+
     await axios.post(
-      uriHelpers.concatUrl([endpoint.data.target, 'api/v1/event']),
+      uriHelpers.concatUrl([
+        endpoint.target,
+        'api/v1/event']),
       req.body,
       {
         headers: {
-          'x-token': endpoint.data.token
+          'x-token': endpoint.token
         }
       }
     )
