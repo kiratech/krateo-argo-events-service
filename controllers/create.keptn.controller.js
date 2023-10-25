@@ -5,7 +5,7 @@ const uriHelpers = require('../service-library/helpers/uri.helpers')
 const stringHelpers = require('../service-library/helpers/string.helpers')
 const axios = require('axios')
 
-router.post('/trigger/:endpoint/:name', async (req, res, next) => {
+router.post('/keptn/:endpoint/:name', async (req, res, next) => {
   try {
     const endpoint = JSON.parse(stringHelpers.b64toAscii(req.params.endpoint))
     // const name = stringHelpers.b64toAscii(req.params.name)
